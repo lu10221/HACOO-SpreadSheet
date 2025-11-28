@@ -97,7 +97,8 @@ async function renderPopularListFromStorage() {
     // 优先尝试从后端获取全站热搜
     if (POPULAR_API_BASE) {
         try {
-            const url = `${POPULAR_API_BASE}/popular?limit=15`;
+            const siteId = (typeof CONFIG !== 'undefined' && CONFIG.ANALYTICS && CONFIG.ANALYTICS.SITE_ID) ? CONFIG.ANALYTICS.SITE_ID : 'hacoo';
+            const url = `${POPULAR_API_BASE}/popular?limit=15&site_id=${encodeURIComponent(siteId)}`;
             const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
             if (res.ok) {
                 const data = await res.json();
