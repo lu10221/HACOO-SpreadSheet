@@ -71,11 +71,19 @@ function recordSearchTerm(term) {
     if (POPULAR_API_BASE) {
         try {
             const siteId = (typeof CONFIG !== 'undefined' && CONFIG.ANALYTICS && CONFIG.ANALYTICS.SITE_ID) ? CONFIG.ANALYTICS.SITE_ID : 'hacoo';
-            fetch(`${POPULAR_API_BASE}/events/search`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ term, site_id: siteId })
-            }).catch(() => {});
+            const payload = JSON.stringify({ term, site_id: siteId });
+            if (navigator.sendBeacon) {
+                const blob = new Blob([payload], { type: 'text/plain' });
+                navigator.sendBeacon(`${POPULAR_API_BASE}/events/search`, blob);
+            } else {
+                fetch(`${POPULAR_API_BASE}/events/search`, {
+                    method: 'POST',
+                    mode: 'cors',
+                    keepalive: true,
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: payload
+                }).catch(() => {});
+            }
         } catch (e) {
             // ignore network errors
         }
