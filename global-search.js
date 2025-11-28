@@ -317,9 +317,8 @@ function loadAllProducts() {
                 return response.json();
             })
             .then(data => {
-                // Filter valid products and add category info
                 return data
-                    .filter(product => product.spbt && product.ztURL && product.spURL)
+                    .filter(product => (product.title_clean || product.spbt) && (product.media_urls || product.ztURL) && (product.converted_link || product.spURL))
                     .map(product => {
                         product.category = category.name;
                         product.categoryUrl = `${category.endpoint}.html`;
@@ -335,13 +334,14 @@ function loadAllProducts() {
     // Wait for all fetches to complete
     return Promise.all(fetchPromises)
         .then(results => {
-            // Combine all results and remove duplicates (based on spURL)
+            // Combine all results and remove duplicates (based on converted_link)
             const allProducts = [];
             const uniqueUrls = new Set();
             
             results.flat().forEach(product => {
-                if (!uniqueUrls.has(product.spURL)) {
-                    uniqueUrls.add(product.spURL);
+                const urlKey = product.converted_link || product.spURL || '';
+                if (!uniqueUrls.has(urlKey)) {
+                    uniqueUrls.add(urlKey);
                     allProducts.push(product);
                 }
             });
@@ -409,9 +409,10 @@ function performGlobalSearch(searchTerm) {
 
         // 过滤匹配的商品
         // 过滤匹配的商品
-        const matchingProducts = globalProducts.filter(product =>
-            product.spbt && product.spbt.toLowerCase().includes(searchTerm)
-        );
+        const matchingProducts = globalProducts.filter(product => {
+            const t = (product.title_clean || product.spbt || '').toLowerCase();
+            return t.includes(searchTerm);
+        });
         window.currentSearchResults = matchingProducts;
 
         // 使用统一产品渲染器的卡片结构，保证样式一致
@@ -428,13 +429,13 @@ function performGlobalSearch(searchTerm) {
                     card.className = 'product-card';
                     card.setAttribute('data-index', i);
                     card.innerHTML = `
-                        <a href="#" onclick="event.preventDefault()">
-                            <img src="${product.ztURL}" class="product-image" alt="${product.spbt}">
+                        <a href="${product.converted_link || product.spURL || '#'}" target="_blank" rel="noopener noreferrer">
+                            <img src="${(function(){ const s = (Array.isArray(product.media_urls) ? (product.media_urls[0] || '') : (function(){ try { const arr = JSON.parse(product.media_urls || ''); return Array.isArray(arr) ? (arr[0] || '') : ''; } catch(e){ return (product.media_urls || product.ztURL || ''); } })()).toString(); return s.indexOf(' ')>=0 ? s.replace(/\s/g,'%20') : s; })()}" class="product-image" alt="${product.title_clean || product.spbt || 'Product'}">
                             <div class="product-info">
-                                <div class="product-title">${product.spbt}</div>
+                                <div class="product-title">${product.title_clean || product.spbt || 'Product'}</div>
                                 <div class="product-price">
-                                    <span class="us-price">${product.US || '--'}</span>
-                                    <span class="eur-price">${product.EUR || '--'}</span>
+                                    <span class="us-price">${product.price_clean || product.US || '--'}</span>
+                                    <span class="eur-price"></span>
                                 </div>
                             </div>
                         </a>`;
@@ -499,7 +500,10 @@ function performLocalSearch(searchTerm) {
         productsContainer.innerHTML = '';
         productsContainer.classList.add('products-grid');
 
-        const matching = productRenderer.allProducts.filter(p => p.spbt && p.spbt.toLowerCase().includes(term));
+        const matching = productRenderer.allProducts.filter(p => {
+            const t = (p.title_clean || p.spbt || '').toLowerCase();
+            return t.includes(term);
+        });
 
         if (matching.length === 0) {
             productsContainer.innerHTML = `<div class="no-products">${(typeof CONFIG !== 'undefined' && CONFIG.ERROR_MESSAGES) ? CONFIG.ERROR_MESSAGES.NO_PRODUCTS : '没有找到商品'}</div>`;
@@ -557,13 +561,13 @@ function performLocalSearch(searchTerm) {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-            <a href="${product.spURL}" target="_blank" rel="noopener noreferrer">
-                <img src="${product.ztURL}" class="product-image" alt="${product.spbt}">
+            <a href="${product.converted_link || product.spURL || '#'}" target="_blank" rel="noopener noreferrer">
+                <img src="${(function(){ const s = (Array.isArray(product.media_urls) ? (product.media_urls[0] || '') : (function(){ try { const arr = JSON.parse(product.media_urls || ''); return Array.isArray(arr) ? (arr[0] || '') : ''; } catch(e){ return (product.media_urls || product.ztURL || ''); } })()).toString(); return s.indexOf(' ')>=0 ? s.replace(/\s/g,'%20') : s; })()}" class="product-image" alt="${product.title_clean || product.spbt || 'Product'}">
                 <div class="product-info">
-                    <div class="product-title">${product.spbt}</div>
+                    <div class="product-title">${product.title_clean || product.spbt || 'Product'}</div>
                     <div class="product-price">
-                        <span class="us-price">${product.US || '--'}</span>
-                        <span class="eur-price">${product.EUR || '--'}</span>
+                        <span class="us-price">${product.price_clean || product.US || '--'}</span>
+                        <span class="eur-price"></span>
                     </div>
                 </div>
             </a>`;

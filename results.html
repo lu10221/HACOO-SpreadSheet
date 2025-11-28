@@ -8,7 +8,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - $FFBuy SpreadSheet</title>
+    <title>Search Results - HACOO SpreadSheet</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="global-search.css">
     <link rel="stylesheet" href="product-detail-modal.css">
@@ -22,7 +22,7 @@
 </head>
 <body class="results-page">
     <nav class="results-topbar" role="navigation" aria-label="Top Navigation">
-        <a class="topbar-logo" href="index.html" aria-label="Go to Home">$FFBuy</a>
+        <a class="topbar-logo" href="index.html" aria-label="Go to Home">HACOO SpreadSheet</a>
         <button class="topbar-search" aria-label="Open Search" onclick="window.location.href='search.html?autoFocus=1'">
             <i class="fas fa-search"></i>
         </button>
@@ -94,7 +94,10 @@
                 }
                 // 统计数量（再次过滤一次）
                 if (Array.isArray(globalProducts)) {
-                    const count = globalProducts.filter(p => p.spbt && p.spbt.toLowerCase().includes(term)).length;
+                    const count = globalProducts.filter(p => {
+                        const t = (p.title_clean || p.spbt || '').toLowerCase();
+                        return t.includes(term);
+                    }).length;
                     const countEl = document.getElementById('resultsCount');
                     if (countEl) countEl.textContent = `${count} results`;
                 }

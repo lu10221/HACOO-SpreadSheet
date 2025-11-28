@@ -241,7 +241,7 @@ function showBasicProductDetail(productUrl, productData) {
         <div class="product-detail-info">
             <h3>${productData.spbt}</h3>
             <div class="product-detail-price">${priceDisplay}</div>
-            <p class="product-detail-visit-text">Click to visit <span style="color: #2476db; font-weight: 600;">CNFANS</span> official ordering page</p>
+            <p class="product-detail-visit-text">Click to visit <span style="color: #00784E; font-weight: 600;">CNFANS</span> official ordering page</p>
               <div class="product-detail-actions">
                     <div class="agent-top">
                         <a href="${productData.lovegobuy || ''}" target="_blank" class="product-detail-buy-btn lovegobuy-btn" onclick="event.stopPropagation();">
@@ -398,7 +398,7 @@ function renderProductDetail(detailData, productUrl, productData) {
             <h3>${data.title || productData.spbt}</h3>
             <div class="product-detail-price">${priceDisplay}</div>
             ${attributesHtml}
-            <p class="product-detail-visit-text"><span style="color: #2476db; font-weight: 600;">Select the agent</span> you want to buy on</p>
+            <p class="product-detail-visit-text"><span style="color: #00784E; font-weight: 600;">Select the agent</span> you want to buy on</p>
             <div class="product-detail-actions">
                 <div class="agent-top">
                     <a href="${productData.lovegobuy || ''}" target="_blank" class="product-detail-buy-btn lovegobuy-btn" onclick="event.stopPropagation();">
@@ -559,70 +559,7 @@ function renderProductDetail(detailData, productUrl, productData) {
 
 // 在页面加载完成后，为所有商品卡片添加点击事件
 document.addEventListener('DOMContentLoaded', function() {
-    // 确保商品详情弹窗存在
-    if (!document.getElementById('productDetailModal')) {
-        console.error('商品详情弹窗不存在，请检查HTML结构');
-        return;
-    }
-    
-    // 监听商品卡片创建事件
-    const productsContainer = document.getElementById('products-container');
-    if (productsContainer) {
-        // 使用MutationObserver监听DOM变化，为新添加的商品卡片绑定点击事件
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList') {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && node.classList.contains('product-card')) {
-                            // 为新添加的商品卡片绑定点击事件
-                            bindProductCardClickEvent(node);
-                        }
-                    });
-                }
-            });
-        });
-        
-        // 配置观察选项
-        const config = { childList: true, subtree: true };
-        
-        // 开始观察
-        observer.observe(productsContainer, config);
-
-        productsContainer.addEventListener('click', function(e){
-            var card = e.target.closest('.product-card');
-            if (!card) return;
-            var isBuy = e.target.closest('.product-detail-buy-btn');
-            if (isBuy) return;
-            var wasBound = !!card.dataset.hasClickEvent;
-            var clickedLink = e.target.closest('a');
-            if (!wasBound && clickedLink) { e.preventDefault(); e.stopPropagation(); }
-            if (!wasBound) { bindProductCardClickEvent(card); }
-            var pid = card.dataset.productId || '';
-            var purl = card.dataset.productUrl || (clickedLink ? clickedLink.href : '');
-            var titleEl = card.querySelector('.product-title');
-            var imageEl = card.querySelector('.product-image');
-            var priceEl = card.querySelector('.us-price');
-            var data = { spbt: titleEl ? titleEl.textContent : '', ztURL: imageEl ? imageEl.src : '', US: priceEl ? priceEl.textContent : '' };
-            if (window.allProducts && Array.isArray(window.allProducts) && data.spbt) {
-                var full = window.allProducts.find(function(p){ return p.spbt === data.spbt; });
-                if (full) {
-                    if (full.lovegobuy) data.lovegobuy = full.lovegobuy;
-                    if (full.loongbuy) data.loongbuy = full.loongbuy;
-                    if (full.oopbuy) data.oopbuy = full.oopbuy;
-                    if (full.allchinabuy) data.allchinabuy = full.allchinabuy;
-                    if (full.mulebuy) data.mulebuy = full.mulebuy;
-                    if (full.kakobuy) data.kakobuy = full.kakobuy;
-                    if (full.acbuy) data.acbuy = full.acbuy;
-                }
-            }
-            if (!wasBound) {
-                gaSendEvent('product_click', { product_id: pid, product_title: data.spbt, product_name: data.spbt, product_url: purl, category: (window.SPA && window.SPA.currentCategory) || '' });
-                openProductDetail(pid, purl, data);
-                return;
-            }
-            // 已绑定，交由卡片自己的监听处理
-        });
-    }
+    return;
 });
 
 // 为商品卡片绑定点击事件

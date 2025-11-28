@@ -239,12 +239,36 @@ class ProductRenderer {
 
     // 数据清理和安全处理
     sanitizeProductData(product) {
+        const title = product.title_clean || product.spbt || 'Product';
+        const link = product.converted_link || product.spURL || '#';
+        let image = 'img/placeholder.png';
+        const media = product.media_urls || product.ztURL || '';
+        if (Array.isArray(media) && media.length > 0) {
+            image = String(media[0]).trim().replace(/`/g, '');
+        } else if (typeof media === 'string' && media) {
+            const m = media.trim();
+            try {
+                const arr = JSON.parse(m);
+                if (Array.isArray(arr) && arr.length > 0) {
+                    image = String(arr[0]).trim().replace(/`/g, '');
+                }
+            } catch (_) {
+                const parts = m.split(/\||,|;/).filter(Boolean);
+                if (parts.length > 0) {
+                    image = String(parts[0]).trim().replace(/`/g, '');
+                }
+            }
+        }
+        if (typeof image === 'string' && image.indexOf(' ') >= 0) {
+            image = image.replace(/\s/g, '%20');
+        }
+        const price = product.price_clean || product.US || '--';
         return {
-            spbt: this.escapeHtml(product.spbt || 'Product'),
-            spURL: product.spURL || '#',
-            ztURL: product.ztURL || 'img/placeholder.png',
-            US: product.US || '--',
-            EUR: product.EUR || '--'
+            spbt: this.escapeHtml(title),
+            spURL: link,
+            ztURL: image,
+            US: price,
+            EUR: ''
         };
     }
 
@@ -297,7 +321,7 @@ class ProductRenderer {
     showEndMessage() {
         const endMessage = document.createElement('div');
         endMessage.className = 'end-message';
-        endMessage.innerHTML = '<i class="fas fa-check-circle"></i> 所有产品已加载完成';
+        endMessage.innerHTML = '<i class="fas fa-check-circle"></i> All products loaded';
         this.productsContainer.appendChild(endMessage);
     }
 

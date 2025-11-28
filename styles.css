@@ -113,7 +113,7 @@ html {
     align-items: center;
     justify-content: center;
     border-radius: 0 0 20px 20px;
-    border: 1px solid rgba(255, 99, 71, 0.1);
+    border: 1px solid rgba(0, 120, 78, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -126,7 +126,7 @@ header {
     position: relative;
     z-index: 99;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-bottom: 1px solid rgba(255, 99, 71, 0.05);
+    border-bottom: 1px solid rgba(0, 120, 78, 0.08);
 }
 
 /* 隐藏中间的汉堡菜单按钮 */
@@ -174,7 +174,7 @@ header {
 .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #ff6347;
+    color: #00784E;
     text-decoration: none;
     transition: transform 0.2s ease, color 0.2s ease;
     display: inline-block;
@@ -189,7 +189,7 @@ header {
 
 .logo:hover {
     transform: scale(1.05);
-    color: #ff4500;
+    color: #00613E;
 }
 
 .search-container {
@@ -217,9 +217,9 @@ header {
 }
 
 .search-box:focus {
-    border-color: #ff6347;
+    border-color: #00784E;
     background-color: white;
-    box-shadow: 0 1px 5px rgba(255, 99, 71, 0.2);
+    box-shadow: 0 1px 5px rgba(0, 120, 78, 0.2);
 }
 
 .search-icon {
@@ -232,7 +232,7 @@ header {
 }
 
 .search-icon:hover {
-    color: #ff6347;
+    color: #00784E;
     transform: scale(1.1);
 }
 
@@ -262,13 +262,13 @@ header {
 }
 
 .nav-links a:hover {
-    color: #ff6347;
-    background-color: rgba(255, 99, 71, 0.08);
+    color: #00784E;
+    background-color: rgba(0, 120, 78, 0.08);
 }
 
 .nav-links a.active {
-    color: #ff6347;
-    background-color: rgba(255, 99, 71, 0.1);
+    color: #00784E;
+    background-color: rgba(0, 120, 78, 0.1);
     font-weight: 600;
 }
 
@@ -283,7 +283,7 @@ nav {
     white-space: nowrap;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
     scrollbar-width: thin;
-    scrollbar-color: #ff6347 #f0f0f0;
+    scrollbar-color: #00784E #f0f0f0;
 }
 
 /* Custom scrollbar for webkit browsers */
@@ -297,7 +297,7 @@ nav::-webkit-scrollbar-track {
 }
 
 nav::-webkit-scrollbar-thumb {
-    background-color: #ff6347;
+    background-color: #00784E;
     border-radius: 10px;
 }
 
@@ -325,7 +325,7 @@ nav::-webkit-scrollbar-thumb {
     left: 20px;
     width: 40px;
     height: 40px;
-    background-color: #ff6347;
+    background-color: #00784E;
     color: white;
     border: none;
     border-radius: 50%;
@@ -342,7 +342,7 @@ nav::-webkit-scrollbar-thumb {
 
 #trustBtn:not(.trust-icon):hover {
     transform: scale(1.1);
-    background-color: #ff4500;
+    background-color: #00613E;
 }
 
 #trustModal {
@@ -358,7 +358,7 @@ nav::-webkit-scrollbar-thumb {
     z-index: 999;
     font-size: 14px;
     line-height: 1.6;
-    border-left: 5px solid #ff6347;
+    border-left: 5px solid #00784E;
     animation: fadeIn 0.3s ease-in-out;
     transform-origin: bottom left;
 }
@@ -385,7 +385,7 @@ nav::-webkit-scrollbar-thumb {
 }
 
 #trustModal p strong {
-    color: #ff6347;
+    color: #00784E;
     font-size: 18px;
     display: block;
     margin-bottom: 10px;
@@ -419,12 +419,12 @@ nav a i {
 }
 
 nav a:hover {
-    color: #ff6347;
-    background-color: rgba(255, 99, 71, 0.08);
+    color: #00784E;
+    background-color: rgba(0, 120, 78, 0.08);
 }
 
 nav a.active {
-    color: #ff6347;
+    color: #00784E;
     font-weight: 500;
 }
 
@@ -660,7 +660,7 @@ nav a.active {
 }
 
 .product-detail-close:hover {
-    color: #ff6347;
+    color: #00784E;
 }
 
 .product-detail-body {
@@ -698,7 +698,7 @@ nav a.active {
 
 .product-detail-thumbnail:hover,
 .product-detail-thumbnail.active {
-    border-color: #ff6347;
+    border-color: #00784E;
 }
 
 .product-detail-info {
@@ -744,7 +744,7 @@ nav a.active {
 
 .product-detail-buy-btn {
     display: inline-block;
-    background-color: #ff6347;
+    background-color: #00784E;
     color: white;
     padding: 12px 25px;
     border-radius: 25px;
@@ -756,9 +756,9 @@ nav a.active {
 }
 
 .product-detail-buy-btn:hover {
-    background-color: #ff4500;
+    background-color: #00613E;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 99, 71, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 120, 78, 0.3);
 }
 
 .product-detail-loading {
@@ -772,7 +772,7 @@ nav a.active {
 
 .product-detail-loading i {
     margin-right: 15px;
-    color: #ff6347;
+    color: #00784E;
     font-size: 24px;
     animation: spin 1s infinite linear;
 }
@@ -862,7 +862,7 @@ nav a.active {
 
 .loading-indicator i {
     margin-right: 12px;
-    color: #ff6347;
+    color: #00784E;
     font-size: 18px;
     animation: spin 1s infinite linear;
 }
@@ -1103,7 +1103,7 @@ nav a.active {
     position: fixed;
     bottom: 25px;
     right: 25px;
-    background-color: #ff6347;
+    background-color: #00784E;
     color: white;
     width: 45px;
     height: 45px;
@@ -1120,7 +1120,7 @@ nav a.active {
 }
 
 .back-to-top:hover {
-    background-color: #ff4500;
+    background-color: #00613E;
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
@@ -1179,7 +1179,7 @@ nav a.active {
     .fixed-logo-bar .logo {
         font-size: 28px !important;
         text-align: center !important;
-        background: linear-gradient(135deg, #ff6347 0%, #ff4500 100%);
+        background: linear-gradient(135deg, #00784E 0%, #00613E 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -1199,15 +1199,15 @@ nav a.active {
         font-size: 16px; /* 移动端同样保持16px，避免iOS自动放大 */
         border-radius: 20px;
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        border: 1px solid rgba(255, 99, 71, 0.15);
+        border: 1px solid rgba(0, 120, 78, 0.15);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         transition: all 0.3s ease;
     }
     
     .search-box:focus {
-        border-color: #ff6347;
+        border-color: #00784E;
         background: white;
-        box-shadow: 0 3px 12px rgba(255, 99, 71, 0.15);
+        box-shadow: 0 3px 12px rgba(0, 120, 78, 0.15);
         transform: translateY(-1px);
     }
 
@@ -1231,10 +1231,10 @@ nav a.active {
         padding: 12px 16px;
         margin: 0;
         box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
-        border-top: 1px solid rgba(255, 99, 71, 0.08);
-        border-bottom: 1px solid rgba(255, 99, 71, 0.08);
+        border-top: 1px solid rgba(0, 120, 78, 0.08);
+        border-bottom: 1px solid rgba(0, 120, 78, 0.08);
         scrollbar-width: thin;
-        scrollbar-color: #ff6347 #f0f0f0;
+        scrollbar-color: #00784E #f0f0f0;
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
     }
@@ -1250,7 +1250,7 @@ nav a.active {
     }
 
     nav::-webkit-scrollbar-thumb {
-        background-color: #ff6347;
+        background-color: #00784E;
         border-radius: 10px;
     }
 
@@ -1264,7 +1264,7 @@ nav a.active {
         font-size: 13px;
         font-weight: 600;
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        border: 1px solid rgba(255, 99, 71, 0.1);
+        border: 1px solid rgba(0, 120, 78, 0.1);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         white-space: nowrap;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
@@ -1294,24 +1294,24 @@ nav a.active {
     }
     
     nav a:hover {
-        background: linear-gradient(135deg, rgba(255, 99, 71, 0.1) 0%, rgba(255, 99, 71, 0.05) 100%);
-        border-color: #ff6347;
-        color: #ff6347;
+        background: linear-gradient(135deg, rgba(0, 120, 78, 0.1) 0%, rgba(0, 120, 78, 0.05) 100%);
+        border-color: #00784E;
+        color: #00784E;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 99, 71, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 120, 78, 0.15);
     }
 
     nav a:hover i {
-        color: #ff6347;
+        color: #00784E;
         transform: scale(1.1);
     }
 
     nav a.active {
-        background: linear-gradient(135deg, #ff6347 0%, #ff4500 100%);
+        background: linear-gradient(135deg, #00784E 0%, #00613E 100%);
         color: white;
-        border-color: #ff6347;
+        border-color: #00784E;
         transform: translateY(-1px);
-        box-shadow: 0 4px 15px rgba(255, 99, 71, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 120, 78, 0.3);
     }
 
     nav a.active i {
@@ -1456,7 +1456,7 @@ nav a.active {
     .logo {
         font-size: 24px;
         font-weight: bold;
-        color: #ff6347;
+        color: #00784E;
         text-decoration: none;
         transition: transform 0.2s ease, color 0.2s ease;
         display: inline-block;

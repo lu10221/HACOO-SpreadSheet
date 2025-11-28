@@ -27,9 +27,10 @@ class ProductService {
         try {
             const data = await this.fetchWithRetry(apiUrl);
             
-            // 过滤有效产品
             const validProducts = data.filter(product => 
-                product.spbt && product.ztURL && product.spURL
+                (product.title_clean || product.spbt) && 
+                (product.media_urls || product.ztURL) && 
+                (product.converted_link || product.spURL)
             );
             
             // 缓存数据

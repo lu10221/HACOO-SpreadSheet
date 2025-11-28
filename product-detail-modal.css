@@ -201,7 +201,7 @@
   border: 1px solid #e6eeff;
   border-radius: 14px;
   padding: 14px 12px;
-  box-shadow: 0 6px 16px rgba(30, 80, 160, 0.12);
+  box-shadow: 0 6px 16px rgba(0, 120, 78, 0.12);
 }
 
 /* 购买代理新布局 */
@@ -239,7 +239,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, #2476db, #1e5bb8);
+  background: linear-gradient(135deg, #00784E, #00613E);
   color: white;
   padding: 12px 20px;
   border-radius: 25px;
@@ -257,9 +257,9 @@
 }
 
 .product-detail-buy-btn:hover {
-  background: linear-gradient(135deg, #1e5bb8, #1a4d9e);
+  background: linear-gradient(135deg, #00613E, #00533A);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(36, 118, 219, 0.4);
+  box-shadow: 0 5px 15px rgba(0, 120, 78, 0.4);
 }
 
 /* 按钮图标样式 */

@@ -2,8 +2,8 @@
 const CONFIG = {
     // 站点基本信息
     SITE: {
-        NAME: '$FFBuy SpreadSheet',
-        LOGO_TEXT: '$FFBuy SpreadSheet',
+        NAME: 'HACOO SpreadSheet',
+        LOGO_TEXT: 'HACOO SpreadSheet',
         DEFAULT_CATEGORY: 'Hot', // 默认跳转的分类
         // 获取默认分类对象
         get defaultCategory() {
@@ -26,7 +26,7 @@ const CONFIG = {
     
     // API配置
     API: {
-        BASE_URL: 'https://opensheet.elk.sh/1GEMNqUmGYTSH4oEpcqbIQYWQfihefyB0GeeANSxsucw',
+        BASE_URL: 'https://opensheet.elk.sh/19FWoV9_W_yrApDs-jOKnkGbwe9EwHLiC-PRDvNNCbpA',
         TIMEOUT: 10000, // 10秒超时
         RETRY_COUNT: 3, // 重试次数
         RETRY_DELAY: 1000 // 重试延迟(毫秒)
@@ -147,9 +147,9 @@ const CONFIG = {
     
     // 信任信息配置
     TRUST_INFO: {
-        PLATFORM_NAME: 'CNFANS Platform',
-        PLATFORM_COLOR: '#2476db',
-        SECURITY_MESSAGE: 'This page displays products only. Orders are securely processed via <strong style="color:#2476db; font-weight:600;">CNFANS Platform</strong> with buyer protection & after-sales support.',
+        PLATFORM_NAME: 'HACOO Platform',
+        PLATFORM_COLOR: '#00784E',
+        SECURITY_MESSAGE: 'This page displays products only. Orders are securely processed via <strong style="color:#00784E; font-weight:600;">HACOO Platform</strong> with buyer protection & after-sales support.',
         PAYMENT_MESSAGE: '<strong>Secure payments</strong> supported by'
     }
 };

@@ -18,7 +18,7 @@
 }
 
 .global-search-indicator.active {
-    background-color: #4CAF50;
+    background-color: #00784E;
     color: white;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .category-header a:hover {
-    color: #0066cc;
+    color: #00784E;
 }
 
 .product-count {

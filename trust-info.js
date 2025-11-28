@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
         trustModal = document.createElement('div');
         trustModal.id = 'trustModal';
         trustModal.innerHTML = `
-            <p style="text-align: center; margin-bottom: 15px;"><strong style="font-size: 20px; color: #ff6347; text-transform: uppercase; letter-spacing: 1px;">About Us</strong></p>
-            <div style="height: 2px; background: linear-gradient(to right, #ff6347, transparent); margin-bottom: 15px;"></div>
-            <p><span style="color: #ff6347;">✓</span> This page displays hot-selling products. Click to jump to the official <span style="color: #0066cc; font-weight: bold;">CNFANS</span> platform.</p>
-            <p><span style="color: #ff6347;">✓</span> We support <span style="font-weight: bold;">escrow transactions</span>, <span style="font-weight: bold;">authentic product guarantee</span>, <span style="font-weight: bold;">after-sales service</span>, and <span style="font-weight: bold;">secure payment</span>.</p>
-            <p><span style="color: #ff6347;">✓</span> If you have any questions, please contact our <span style="color: #0088cc; font-weight: bold;">Telegram</span> or <span style="color: #25D366; font-weight: bold;">WhatsApp</span> customer service.</p>
+            <p style="text-align: center; margin-bottom: 15px;"><strong style="font-size: 20px; color: #00784E; text-transform: uppercase; letter-spacing: 1px;">About Us</strong></p>
+            <div style="height: 2px; background: linear-gradient(to right, #00784E, transparent); margin-bottom: 15px;"></div>
+            <p><span style="color: #00784E;">✓</span> This page displays hot-selling products. Click to jump to the official <span style="color: #00784E; font-weight: bold;">CNFANS</span> platform.</p>
+            <p><span style="color: #00784E;">✓</span> We support <span style="font-weight: bold;">escrow transactions</span>, <span style="font-weight: bold;">authentic product guarantee</span>, <span style="font-weight: bold;">after-sales service</span>, and <span style="font-weight: bold;">secure payment</span>.</p>
+            <p><span style="color: #00784E;">✓</span> If you have any questions, please contact our <span style="color: #0088cc; font-weight: bold;">Telegram</span> or <span style="color: #25D366; font-weight: bold;">WhatsApp</span> customer service.</p>
             <div style="text-align: center; margin-top: 15px;">
                 <button id="closeTrustModal" style="background-color: #f8f8f8; border: 1px solid #ddd; border-radius: 4px; padding: 5px 15px; cursor: pointer; font-size: 12px; color: #666; transition: all 0.3s ease;">Close</button>
             </div>
