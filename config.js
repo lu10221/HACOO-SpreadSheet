@@ -64,7 +64,8 @@ const CONFIG = {
     // Google Analytics配置
     ANALYTICS: {
         TRACKING_ID: 'G-DZ3110PTYG',
-        CF_ENDPOINT: 'https://webga4.lu10221.workers.dev/collect'
+        CF_ENDPOINT: 'https://webga4.lu10221.workers.dev/collect',
+        SITE_ID: 'hacoo'
     },
     
     // 支付方式配置

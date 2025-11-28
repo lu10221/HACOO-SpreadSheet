@@ -185,6 +185,13 @@ class ProductRenderer {
         link.href = sanitizedProduct.spURL;
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
+        link.addEventListener('click', function(e){
+            try { e.preventDefault(); e.stopPropagation(); } catch(_){ }
+            var href = sanitizedProduct.spURL || '#';
+            var cat = (window.SPA && window.SPA.currentCategory) || '';
+            var ok = (typeof window.reportEvent === 'function') ? window.reportEvent('product_click', { product_title: sanitizedProduct.spbt, product_url: href, category: cat, event_callback: function(){ try { if (href && href !== '#') window.open(href, '_blank'); } catch (err) { if (href && href !== '#') location.href = href; } } }) : false;
+            if (!ok && href && href !== '#') window.open(href, '_blank');
+        });
         
         const img = document.createElement('img');
         img.className = 'product-image';

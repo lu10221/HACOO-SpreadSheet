@@ -29,7 +29,7 @@ function getCid() {
 function cfReport(event, payload) {
     try {
         var endpoint = (window.CONFIG && CONFIG.ANALYTICS && CONFIG.ANALYTICS.CF_ENDPOINT) || 'https://ga4.lu10221.workers.dev/collect';
-        var data = Object.assign({ event: event, ts: Date.now(), cid: getCid(), page: location.pathname, ref: document.referrer || '', ua: navigator.userAgent }, payload || {});
+        var data = Object.assign({ event: event, ts: Date.now(), cid: getCid(), page: location.pathname, ref: document.referrer || '', ua: navigator.userAgent, site_id: (window.CONFIG && CONFIG.ANALYTICS && CONFIG.ANALYTICS.SITE_ID) || 'hacoo' }, payload || {});
         var json = JSON.stringify(data);
         var blob = new Blob([json], { type: 'text/plain' });
         if (navigator.sendBeacon) {
@@ -293,13 +293,13 @@ function showBasicProductDetail(productUrl, productData) {
             e.stopPropagation();
             var name = this.classList.contains('lovegobuy-btn') ? 'lovegobuy' : this.classList.contains('cnfans-btn') ? 'CNFANS' : this.classList.contains('loongbuy-btn') ? 'loongbuy' : this.classList.contains('oopbuy-btn') ? 'oopbuy' : this.classList.contains('allchinabuy-btn') ? 'allchinabuy' : this.classList.contains('mulebuy-btn') ? 'mulebuy' : this.classList.contains('kakobuy-btn') ? 'kakobuy' : this.classList.contains('acbuy-btn') ? 'acbuy' : (this.textContent || '').trim();
             var ctx = window.__ffbuy_currentProduct || {};
-            var ok = reportEvent('agent_click', { agent_name: name, product_id: ctx.id || '', product_title: (ctx.title || (productData && productData.spbt) || ''), product_name: (ctx.title || (productData && productData.spbt) || ''), product_url: (ctx.url || productUrl || ''), category: (ctx.category || (window.SPA && window.SPA.currentCategory) || ''), event_callback: function(){ try { if (href) window.open(href, '_blank'); } catch (err) { if (href) location.href = href; } } });
+            var ok = false; // reportEvent('agent_click', { agent_name: name, product_id: ctx.id || '', product_title: (ctx.title || (productData && productData.spbt) || ''), product_name: (ctx.title || (productData && productData.spbt) || ''), product_url: (ctx.url || productUrl || ''), category: (ctx.category || (window.SPA && window.SPA.currentCategory) || ''), event_callback: function(){ try { if (href) window.open(href, '_blank'); } catch (err) { if (href) location.href = href; } } });
             if (!ok && href) window.open(href, '_blank');
         });
     });
     try {
         var ctx = window.__ffbuy_currentProduct || {};
-        reportEvent('detail_view', { product_id: ctx.id || '', product_title: (productData && productData.spbt) || '', product_name: (productData && productData.spbt) || '', product_url: (ctx.url || productUrl || ''), category: (ctx.category || (window.SPA && window.SPA.currentCategory) || '') });
+        // reportEvent('detail_view', { product_id: ctx.id || '', product_title: (productData && productData.spbt) || '', product_name: (productData && productData.spbt) || '', product_url: (ctx.url || productUrl || ''), category: (ctx.category || (window.SPA && window.SPA.currentCategory) || '') });
     } catch (e) {}
 }
 
@@ -451,13 +451,13 @@ function renderProductDetail(detailData, productUrl, productData) {
             e.stopPropagation();
             var name = this.classList.contains('lovegobuy-btn') ? 'lovegobuy' : this.classList.contains('cnfans-btn') ? 'CNFANS' : this.classList.contains('loongbuy-btn') ? 'loongbuy' : this.classList.contains('oopbuy-btn') ? 'oopbuy' : this.classList.contains('allchinabuy-btn') ? 'allchinabuy' : this.classList.contains('mulebuy-btn') ? 'mulebuy' : this.classList.contains('kakobuy-btn') ? 'kakobuy' : this.classList.contains('acbuy-btn') ? 'acbuy' : (this.textContent || '').trim();
             var ctx = window.__ffbuy_currentProduct || {};
-            var ok = reportEvent('agent_click', { agent_name: name, product_id: ctx.id || '', product_title: (ctx.title || (productData && productData.spbt) || ''), product_name: (ctx.title || (productData && productData.spbt) || ''), product_url: (ctx.url || productUrl || ''), category: (ctx.category || (window.SPA && window.SPA.currentCategory) || ''), event_callback: function(){ try { if (href) window.open(href, '_blank'); } catch (err) { if (href) location.href = href; } } });
+            var ok = false; // reportEvent('agent_click', { agent_name: name, product_id: ctx.id || '', product_title: (ctx.title || (productData && productData.spbt) || ''), product_name: (ctx.title || (productData && productData.spbt) || ''), product_url: (ctx.url || productUrl || ''), category: (ctx.category || (window.SPA && window.SPA.currentCategory) || ''), event_callback: function(){ try { if (href) window.open(href, '_blank'); } catch (err) { if (href) location.href = href; } } });
             if (!ok && href) window.open(href, '_blank');
         });
     });
     try {
         var ctx2 = window.__ffbuy_currentProduct || {};
-        reportEvent('detail_view', { product_id: ctx2.id || '', product_title: (data.title || (productData && productData.spbt) || ''), product_name: (data.title || (productData && productData.spbt) || ''), product_url: (ctx2.url || productUrl || ''), category: (ctx2.category || (window.SPA && window.SPA.currentCategory) || '') });
+        // reportEvent('detail_view', { product_id: ctx2.id || '', product_title: (data.title || (productData && productData.spbt) || ''), product_name: (data.title || (productData && productData.spbt) || ''), product_url: (ctx2.url || productUrl || ''), category: (ctx2.category || (window.SPA && window.SPA.currentCategory) || '') });
     } catch (e) {}
     const thumbnails = detailBody.querySelectorAll('.product-detail-thumbnail');
     const mainImage = document.getElementById('mainDetailImage');

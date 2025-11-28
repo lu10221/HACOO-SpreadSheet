@@ -70,10 +70,11 @@ function recordSearchTerm(term) {
     // 同步到后端（Cloudflare Workers），失败不影响本地记录
     if (POPULAR_API_BASE) {
         try {
+            const siteId = (typeof CONFIG !== 'undefined' && CONFIG.ANALYTICS && CONFIG.ANALYTICS.SITE_ID) ? CONFIG.ANALYTICS.SITE_ID : 'hacoo';
             fetch(`${POPULAR_API_BASE}/events/search`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ term })
+                body: JSON.stringify({ term, site_id: siteId })
             }).catch(() => {});
         } catch (e) {
             // ignore network errors

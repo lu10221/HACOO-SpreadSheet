@@ -154,11 +154,23 @@
             },
             
             // 处理初始路由
-            handleInitialRoute() {
+             handleInitialRoute() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const category = urlParams.get('category') || CONFIG.SITE.DEFAULT_CATEGORY;
                 this.navigateToCategory(category, false);
-            },
+                const cObj = CONFIG.UTILS.getCategoryByName(category);
+                if (cObj) {
+                    const currPath = window.location.pathname + window.location.search;
+                    const pv = { page_title: `${cObj.displayName} - ${CONFIG.SITE.NAME}`, page_path: currPath, page_location: window.location.href };
+                    const u = new URLSearchParams(window.location.search);
+                    if (u.get('ga_debug') === '1') { pv.debug_mode = true; }
+                    if (typeof window.reportEvent === 'function') {
+                        window.reportEvent('page_view', pv);
+                    } else if (typeof window.gtag === 'function') {
+                        window.gtag('event', 'page_view', pv);
+                    }
+                }
+             },
             
             // 生成导航菜单
             generateNavigation() {
@@ -212,8 +224,12 @@
                     return;
                 }
                 
-                if (updateHistory && typeof window.gtag === 'function') {
-                    window.gtag('event', 'category_click', { category_name: category.name, category_display: category.displayName });
+                if (updateHistory) {
+                    if (typeof window.reportEvent === 'function') {
+                        window.reportEvent('category_click', { category_name: category.name, category_display: category.displayName });
+                    } else if (typeof window.gtag === 'function') {
+                        window.gtag('event', 'category_click', { category_name: category.name, category_display: category.displayName });
+                    }
                 }
 
                 this.currentCategory = categoryName;
@@ -222,10 +238,12 @@
                 if (updateHistory) {
                     const newUrl = `${window.location.pathname}?category=${encodeURIComponent(categoryName)}`;
                     history.pushState({ category: categoryName }, '', newUrl);
-                    if (typeof window.gtag === 'function') {
-                        var pv = { page_title: `${category.displayName} - ${CONFIG.SITE.NAME}`, page_path: newUrl, page_location: window.location.origin + newUrl };
-                        var u = new URLSearchParams(window.location.search);
-                        if (u.get('ga_debug') === '1') { pv.debug_mode = true; }
+                    var pv = { page_title: `${category.displayName} - ${CONFIG.SITE.NAME}`, page_path: newUrl, page_location: window.location.origin + newUrl };
+                    var u = new URLSearchParams(window.location.search);
+                    if (u.get('ga_debug') === '1') { pv.debug_mode = true; }
+                    if (typeof window.reportEvent === 'function') {
+                        window.reportEvent('page_view', pv);
+                    } else if (typeof window.gtag === 'function') {
                         window.gtag('event', 'page_view', pv);
                     }
                 }

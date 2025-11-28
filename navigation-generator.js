@@ -14,7 +14,7 @@ class NavigationGenerator {
 
         return this.categories.map(category => {
             const isActive = currentCategory === category.name ? ' class="active"' : '';
-            return `<a href="?category=${encodeURIComponent(category.name)}"${isActive}><i class="${category.icon}"></i> ${category.displayName}</a>`;
+            return `<a href="?category=${encodeURIComponent(category.name)}"${isActive} onclick="SPA.navigateToCategory('${category.name}'); return false;"><i class="${category.icon}"></i> ${category.displayName}</a>`;
         }).join('\n                ');
     }
 
