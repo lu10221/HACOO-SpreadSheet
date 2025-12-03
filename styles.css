@@ -922,6 +922,7 @@ nav a.active {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.4;
     /* 保持行高为1.4 */
@@ -1514,6 +1515,7 @@ nav a.active {
         font-size: 11px;
         margin: 0 0 2px 0;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         font-weight: 600;
         line-height: 1.3;
     }
