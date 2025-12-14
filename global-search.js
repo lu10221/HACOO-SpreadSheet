@@ -72,11 +72,12 @@ function recordSearchTerm(term) {
         try {
             const siteId = (typeof CONFIG !== 'undefined' && CONFIG.ANALYTICS && CONFIG.ANALYTICS.SITE_ID) ? CONFIG.ANALYTICS.SITE_ID : 'hacoo';
             const payload = JSON.stringify({ term, site_id: siteId });
+            const q = `?term=${encodeURIComponent(term)}&site_id=${encodeURIComponent(siteId)}`;
             if (navigator.sendBeacon) {
                 const blob = new Blob([payload], { type: 'text/plain' });
-                navigator.sendBeacon(`${POPULAR_API_BASE}/events/search`, blob);
+                navigator.sendBeacon(`${POPULAR_API_BASE}/events/search${q}`, blob);
             } else {
-                fetch(`${POPULAR_API_BASE}/events/search`, {
+                fetch(`${POPULAR_API_BASE}/events/search${q}`, {
                     method: 'POST',
                     mode: 'cors',
                     keepalive: true,
