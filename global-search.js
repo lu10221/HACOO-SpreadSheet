@@ -439,8 +439,10 @@ function performGlobalSearch(searchTerm) {
                     const card = document.createElement('div');
                     card.className = 'product-card';
                     card.setAttribute('data-index', i);
+                    const hrefRaw = product.converted_link || product.spURL || '#';
+                    const href = (function(s){ s = String(s||'').trim().replace(/[`"'<>]/g,'').replace(/\u200B|\u200C|\u200D|\uFEFF/g,''); if (s.startsWith('//')) s='https:'+s; try { return encodeURI(s); } catch(_){ return s; } })(hrefRaw);
                     card.innerHTML = `
-                        <a href="${product.converted_link || product.spURL || '#'}" target="_blank" rel="noopener noreferrer">
+                        <a href="${href}" target="_blank" rel="noopener noreferrer">
                             <img src="${(function(){ const s = (Array.isArray(product.media_urls) ? (product.media_urls[0] || '') : (function(){ try { const arr = JSON.parse(product.media_urls || ''); return Array.isArray(arr) ? (arr[0] || '') : ''; } catch(e){ return (product.media_urls || product.ztURL || ''); } })()).toString(); return s.indexOf(' ')>=0 ? s.replace(/\s/g,'%20') : s; })()}" class="product-image" alt="${product.title_clean || product.spbt || 'Product'}">
                             <div class="product-info">
                                 <div class="product-title">${product.title_clean || product.spbt || 'Product'}</div>
@@ -571,8 +573,10 @@ function performLocalSearch(searchTerm) {
     function createFallbackCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
+        const hrefRaw = product.converted_link || product.spURL || '#';
+        const href = (function(s){ s = String(s||'').trim().replace(/[`"'<>]/g,'').replace(/\u200B|\u200C|\u200D|\uFEFF/g,''); if (s.startsWith('//')) s='https:'+s; try { return encodeURI(s); } catch(_){ return s; } })(hrefRaw);
         card.innerHTML = `
-            <a href="${product.converted_link || product.spURL || '#'}" target="_blank" rel="noopener noreferrer">
+            <a href="${href}" target="_blank" rel="noopener noreferrer">
                 <img src="${(function(){ const s = (Array.isArray(product.media_urls) ? (product.media_urls[0] || '') : (function(){ try { const arr = JSON.parse(product.media_urls || ''); return Array.isArray(arr) ? (arr[0] || '') : ''; } catch(e){ return (product.media_urls || product.ztURL || ''); } })()).toString(); return s.indexOf(' ')>=0 ? s.replace(/\s/g,'%20') : s; })()}" class="product-image" alt="${product.title_clean || product.spbt || 'Product'}">
                 <div class="product-info">
                     <div class="product-title">${product.title_clean || product.spbt || 'Product'}</div>

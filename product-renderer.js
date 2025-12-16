@@ -247,7 +247,10 @@ class ProductRenderer {
     // 数据清理和安全处理
     sanitizeProductData(product) {
         const title = product.title_clean || product.spbt || 'Product';
-        const link = product.converted_link || product.spURL || '#';
+        const linkRaw = product.converted_link || product.spURL || '#';
+        let link = String(linkRaw || '').trim().replace(/[`"'<>]/g, '').replace(/\u200B|\u200C|\u200D|\uFEFF/g, '');
+        if (link.startsWith('//')) link = 'https:' + link;
+        try { link = encodeURI(link); } catch (_) {}
         let image = 'img/placeholder.png';
         const media = product.media_urls || product.ztURL || '';
         if (Array.isArray(media) && media.length > 0) {
