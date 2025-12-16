@@ -248,8 +248,10 @@ class ProductRenderer {
     sanitizeProductData(product) {
         const title = product.title_clean || product.spbt || 'Product';
         const linkRaw = product.converted_link || product.spURL || '#';
-        let link = String(linkRaw || '').trim().replace(/[`"'<>]/g, '').replace(/\u200B|\u200C|\u200D|\uFEFF/g, '');
+        let link = String(linkRaw || '').trim().replace(/[`"'<>]/g, '').replace(/\u200B|\u200C|\u200D|\uFEFF|\u00A0|\u3000/g, '');
         if (link.startsWith('//')) link = 'https:' + link;
+        // 去除尾部编码空白（例如 %20、%0A、%0D、%09）
+        link = link.replace(/%(?:20|0A|0D|09)+$/i, '');
         try { link = encodeURI(link); } catch (_) {}
         let image = 'img/placeholder.png';
         const media = product.media_urls || product.ztURL || '';
