@@ -189,8 +189,8 @@ class ProductRenderer {
             try { e.preventDefault(); e.stopPropagation(); } catch(_){ }
             var href = sanitizedProduct.spURL || '#';
             var cat = (window.SPA && window.SPA.currentCategory) || '';
-            var ok = (typeof window.reportEvent === 'function') ? window.reportEvent('product_click', { product_title: sanitizedProduct.spbt, product_url: href, category: cat, event_callback: function(){ try { if (href && href !== '#') window.open(href, '_blank'); } catch (err) { if (href && href !== '#') location.href = href; } } }) : false;
-            if (!ok && href && href !== '#') window.open(href, '_blank');
+            var ok = (typeof window.reportEvent === 'function') ? window.reportEvent('product_click', { product_title: sanitizedProduct.spbt, product_url: href, category: cat, event_callback: function(){ try { if (href && href !== '#') window.open(href, '_blank', 'noopener,noreferrer'); } catch (err) { if (href && href !== '#') location.href = href; } } }) : false;
+            if (!ok && href && href !== '#') window.open(href, '_blank', 'noopener,noreferrer');
         });
         
         const img = document.createElement('img');
@@ -252,7 +252,7 @@ class ProductRenderer {
         if (link.startsWith('//')) link = 'https:' + link;
         // 去除尾部编码空白（例如 %20、%0A、%0D、%09）
         link = link.replace(/%(?:20|0A|0D|09)+$/i, '');
-        try { link = encodeURI(link); } catch (_) {}
+        // try { link = encodeURI(link); } catch (_) {}
         let image = 'img/placeholder.png';
         const media = product.media_urls || product.ztURL || '';
         if (Array.isArray(media) && media.length > 0) {
