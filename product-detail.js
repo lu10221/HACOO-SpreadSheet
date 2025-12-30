@@ -29,7 +29,20 @@ function getCid() {
 function cfReport(event, payload) {
     try {
         var endpoint = (window.CONFIG && CONFIG.ANALYTICS && CONFIG.ANALYTICS.CF_ENDPOINT) || 'https://ga4.lu10221.workers.dev/collect';
-        var data = Object.assign({ event: event, ts: Date.now(), cid: getCid(), page: location.pathname, ref: document.referrer || '', ua: navigator.userAgent, site_id: (window.CONFIG && CONFIG.ANALYTICS && CONFIG.ANALYTICS.SITE_ID) || 'hacoo' }, payload || {});
+        // 获取来源 (优先 Session -> Local -> Default)
+        var trafficSource = sessionStorage.getItem('traffic_source') || localStorage.getItem('traffic_source') || 'direct';
+        
+        var data = Object.assign({ 
+            event: event, 
+            ts: Date.now(), 
+            cid: getCid(), 
+            page: location.pathname, 
+            ref: document.referrer || '', 
+            ua: navigator.userAgent, 
+            site_id: (window.CONFIG && CONFIG.ANALYTICS && CONFIG.ANALYTICS.SITE_ID) || 'hacoo',
+            source: trafficSource // 添加 source 字段
+        }, payload || {});
+        
         var json = JSON.stringify(data);
         var blob = new Blob([json], { type: 'text/plain' });
         if (navigator.sendBeacon) {

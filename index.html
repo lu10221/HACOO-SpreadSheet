@@ -51,24 +51,39 @@
                 return;
             }
 
+            // 直接复用 product-detail.js 中的 reportEvent 逻辑（如果已加载）
+            // 或者在这里实现相同的逻辑，确保 source 字段存在
             // 获取来源 (优先 Session -> Local -> Default)
             const trafficSource = sessionStorage.getItem('traffic_source') || localStorage.getItem('traffic_source') || 'direct';
             
-            // 构建数据包
-            const payload = {
+            // 构建数据包 - Cloudflare Worker
+            const cfPayload = {
                 site_id: CONFIG.ANALYTICS.SITE_ID, // 从 config.js 读取 'hacoo'
                 event: eventName,
                 source: trafficSource,             // [关键] 来源渠道
+                ts: Date.now(),
+                cid: (localStorage.getItem('__cid') || (Date.now() + '-' + Math.random())),
+                page: location.pathname,
+                ref: document.referrer || '',
+                ua: navigator.userAgent,
                 ...params
             };
 
-            // 发送给 Cloudflare Worker
-            fetch(CONFIG.ANALYTICS.CF_ENDPOINT, {
-                method: 'POST',
-                keepalive: true, // 防止跳转打断
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).catch(e => console.error('Analytics Report Error:', e));
+            // 发送给 Cloudflare Worker (使用 sendBeacon 或 fetch)
+            const endpoint = CONFIG.ANALYTICS.CF_ENDPOINT;
+            const json = JSON.stringify(cfPayload);
+            const blob = new Blob([json], { type: 'text/plain' });
+            
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon(endpoint, blob);
+            } else {
+                fetch(endpoint, {
+                    method: 'POST',
+                    keepalive: true,
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: json
+                }).catch(e => console.error('Analytics Report Error:', e));
+            }
 
             // 同时发送给 Google Analytics (保持原有逻辑)
             if (typeof gtag === 'function') {
