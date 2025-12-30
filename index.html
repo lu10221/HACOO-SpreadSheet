@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DZ3110PTYG"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -26,10 +25,58 @@
     <link rel="stylesheet" href="global-search.css">    
     <link rel="stylesheet" href="product-detail-modal.css">
     
-    <!-- 🔥 核心配置文件 - 必须最先加载 -->
     <script src="config.js"></script>
+
+    <script>
+        // 1. 立即执行：捕获 URL 中的来源参数 (?s=xxx)
+        (function() {
+            try {
+                const p = new URLSearchParams(window.location.search);
+                // 支持 s, source, utm_source
+                const s = p.get('s') || p.get('source') || p.get('utm_source');
+                if (s) {
+                    // 双重存储，确保不丢失
+                    localStorage.setItem('traffic_source', s);
+                    sessionStorage.setItem('traffic_source', s);
+                    console.log('%c✅ [Analytics] Source Captured: ' + s, 'color:green;font-weight:bold;');
+                }
+            } catch(e) { console.error('Source capture error', e); }
+        })();
+
+        // 2. 定义全局上报函数 (供页面各处调用)
+        window.reportEvent = function(eventName, params = {}) {
+            // 确保 CONFIG 已加载
+            if (typeof CONFIG === 'undefined' || !CONFIG.ANALYTICS) {
+                console.warn('CONFIG not loaded yet');
+                return;
+            }
+
+            // 获取来源 (优先 Session -> Local -> Default)
+            const trafficSource = sessionStorage.getItem('traffic_source') || localStorage.getItem('traffic_source') || 'direct';
+            
+            // 构建数据包
+            const payload = {
+                site_id: CONFIG.ANALYTICS.SITE_ID, // 从 config.js 读取 'hacoo'
+                event: eventName,
+                source: trafficSource,             // [关键] 来源渠道
+                ...params
+            };
+
+            // 发送给 Cloudflare Worker
+            fetch(CONFIG.ANALYTICS.CF_ENDPOINT, {
+                method: 'POST',
+                keepalive: true, // 防止跳转打断
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(e => console.error('Analytics Report Error:', e));
+
+            // 同时发送给 Google Analytics (保持原有逻辑)
+            if (typeof gtag === 'function') {
+                gtag('event', eventName, params);
+            }
+        };
+    </script>
     
-    <!-- 其他功能模块 -->
     <script src="product-service.js"></script>
     <script src="product-renderer.js"></script>
     <script src="trust-info.js"></script>
@@ -38,7 +85,6 @@
     <script src="global-search.js"></script>
 </head>
 <body>
-    <!-- 🔥 信任信息栏 -->
     <div class="top-info-bar" id="trust-bar"> 
         <i class="fas fa-shield-alt"></i> 
         This page displays products only. Orders are securely processed via <strong style="color:#00784E; font-weight:600;">HACOO Platform</strong> with buyer protection & after-sales support.
@@ -50,8 +96,7 @@
         <div class="header-top">
             <a href="#" class="logo" onclick="SPA.navigateToCategory(CONFIG.SITE.DEFAULT_CATEGORY)">HACOO SpreadSheet</a>
             <div class="nav-links" id="header-nav">
-                <!-- 导航将由SPA动态生成 -->
-            </div>
+                </div>
         </div>
         <div class="header-bottom">
             <div class="search-container">
@@ -61,12 +106,10 @@
         </div>
     </header>
 
-    <!-- 🔥 支付方式信息 -->
     <div id="payment-methods" style="text-align: center; margin: 12px 0 18px;">
         <div style="font-size: 13px; color: #555; margin-bottom: 6px;"><strong>Secure payments</strong> supported by</div>
         <div style="display: inline-flex; align-items: center; gap: 12px;" id="payment-icons">
-            <!-- 支付图标将由SPA动态生成 -->
-        </div>
+            </div>
     </div>
     <div class="responsive-banner" style="max-width: 1200px; margin: 12px auto;">
         <a href="https://cnfans.center/" target="_blank" rel="noopener noreferrer" style="display:block; text-decoration:none;" onclick="try{reportEvent('banner_click',{platform:'FFbuy',href:this.href,page:location.pathname});}catch(e){}">
@@ -77,14 +120,10 @@
         </a>
     </div>
 
-    <!-- 🔥 主导航 -->
     <nav id="main-nav">
-        <!-- 导航将由SPA动态生成 -->
-    </nav>
+        </nav>
 
-    <!-- 🔥 主内容区域 -->
     <div class="container">
-        <!-- 首页弹窗 Banner -->
         <div class="promo-modal" id="promoModal" aria-hidden="true">
             <div class="promo-modal-content">
                 <button class="promo-modal-close" id="closePromoModal" aria-label="Close">&times;</button>
@@ -99,13 +138,11 @@
                 </div>
             </div>
         </div>
-        <!-- 加载状态 -->
         <div id="loading-indicator" style="display: none; text-align: center; padding: 40px;">
             <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #666;"></i>
             <p style="margin-top: 10px; color: #666;">Loading products...</p>
         </div>
         
-        <!-- 错误状态 -->
         <div id="error-indicator" style="display: none; text-align: center; padding: 40px;">
             <i class="fas fa-exclamation-triangle" style="font-size: 24px; color: #e74c3c;"></i>
             <p style="margin-top: 10px; color: #e74c3c;" id="error-message">Failed to load products</p>
@@ -114,13 +151,10 @@
         
         
 
-        <!-- 产品网格 -->
-         <div class="products-grid" id="products-container">
-             <!-- Products will be loaded dynamically -->
-         </div>
+        <div class="products-grid" id="products-container">
+             </div>
     </div>
 
-    <!-- 🔥 浮动按钮 -->
     <div class="floating-buttons" id="floatingButtons">
         <div class="float-btn toggle-btn" id="toggleFloatingBtn"><i class="fas fa-headset"></i></div>
         <div class="floating-content" id="floatingContent">
@@ -131,7 +165,6 @@
     </div>
     <div class="float-btn back-to-top"><i class="fas fa-arrow-up"></i></div>
 
-    <!-- 🔥 商品详情弹窗 -->
     <div class="product-detail-modal" id="productDetailModal">
         <div class="product-detail-content">
             <div class="product-detail-header">
@@ -146,7 +179,6 @@
         </div>
     </div>
 
-    <!-- 🔥 SPA核心脚本 -->
     <script>
         // SPA应用核心
          const SPA = {
@@ -170,12 +202,10 @@
                 if (cObj) {
                     const currPath = window.location.pathname + window.location.search;
                     const pv = { page_title: `${cObj.displayName} - ${CONFIG.SITE.NAME}`, page_path: currPath, page_location: window.location.href };
-                    const u = new URLSearchParams(window.location.search);
-                    if (u.get('ga_debug') === '1') { pv.debug_mode = true; }
+                    
+                    // 这里会自动调用 head 中定义的全局 reportEvent
                     if (typeof window.reportEvent === 'function') {
                         window.reportEvent('page_view', pv);
-                    } else if (typeof window.gtag === 'function') {
-                        window.gtag('event', 'page_view', pv);
                     }
                 }
              },
@@ -235,8 +265,6 @@
                 if (updateHistory) {
                     if (typeof window.reportEvent === 'function') {
                         window.reportEvent('category_click', { category_name: category.name, category_display: category.displayName });
-                    } else if (typeof window.gtag === 'function') {
-                        window.gtag('event', 'category_click', { category_name: category.name, category_display: category.displayName });
                     }
                 }
 
@@ -247,12 +275,9 @@
                     const newUrl = `${window.location.pathname}?category=${encodeURIComponent(categoryName)}`;
                     history.pushState({ category: categoryName }, '', newUrl);
                     var pv = { page_title: `${category.displayName} - ${CONFIG.SITE.NAME}`, page_path: newUrl, page_location: window.location.origin + newUrl };
-                    var u = new URLSearchParams(window.location.search);
-                    if (u.get('ga_debug') === '1') { pv.debug_mode = true; }
+                    
                     if (typeof window.reportEvent === 'function') {
                         window.reportEvent('page_view', pv);
-                    } else if (typeof window.gtag === 'function') {
-                        window.gtag('event', 'page_view', pv);
                     }
                 }
                 
@@ -369,9 +394,6 @@
          window.SPA = SPA;
      </script>
      
-     <!-- 🔥 浮动按钮脚本 -->
      <script src="floating-buttons.js"></script>
 </body>
 </html>
-
-
